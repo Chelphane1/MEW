@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+<html lang="en" da>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/swiper/swiper-bundle.min.css"
+/>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+.content {
+  padding-bottom:55px; /* same value as the footer height */
+}
+
+
+.swiper-container {
+    overflow: hidden;
+}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3e9df;
+            display: flex;
+            flex-direction: column ;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 0;
+            flex-grow: 1;
+        }
+
+        .navbar {
+            background-color: #a7bc8f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            color: #fff;
+        }
+
+        .navbar h1 {
+            font-size: 2rem;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .navbar ul li {
+            margin-left: 1rem;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+.recent-transactions {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  margin: 0.75rem;
+}
+
+.recent-transactions h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #88647D;
+  text-align: center;
+ 
+}
+
+.recent-transactions table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.recent-transactions th,
+.recent-transactions td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #bdc3c7;
+}
+
+.recent-transactions th {
+  background-color: #a7bc8f;
+  color: #fff;
+}
+
+.recent-transactions tr:hover {
+  background-color: #f3e9df;
+}
+
+/* Media queries for mobile devices */
+@media only screen and (max-width: 600px) {
+  .recent-transactions {
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
+  
+  .recent-transactions h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .recent-transactions table {
+    margin-top: 0.5rem;
+  }
+  
+  .recent-transactions th,
+  .recent-transactions td {
+    padding: 0.3rem;
+    font-size: 0.9rem;
+  }
+}
+
+
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.25);
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+.card {
+  background-color: #fff;
+  padding: 10px;
+  border: 2px solid #a7bc8f ;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+margin:
+}
+
+.card h3 {
+ 
+ font-size: 1.5rem;
+  color: #88647D;
+  text-align: center;
+  padding: 0px;
+}
+
+.balance {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+  min-width: 250px;
+  max-width: 320px;
+}
+
+.balance h4 {
+  font-size: 1.5rem;
+  color: #88647D;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center; /* Add this line to align the icon and text horizontally */
+}
+
+.balance h4 span {
+  margin-right: 0.5rem; /* Add this line to add some spacing between the icon and text */
+}
+
+.balance p {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #3e6254;
+  display: flex;
+  align-items: center; /* Add this line to align the icon and text horizontally */
+}
+
+.balance p span {
+  margin-right: 0.5rem; /* Add this line to add some spacing between the icon and text */
+}
+
+.balances {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.5rem;
+  background-color: #a7bc8f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-right: 0.5rem;
+}
+
+button:last-child {
+  margin-right: 0;
+}
+
+
+button:hover {
+  background-color: #8da976;
+}
+
+.button-group button {
+  display: flex;
+  align-items: center;
+}
+
+.button-group button span {
+  margin-right: 5px;
+}
+
+
+
+.swiper-slide {
+  width: 300px;
+}
+
+.swiper-slide.balance {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+
+
+swiper-button-next,
+.swiper-button-prev {
+  position: absolute;
+  top: calc(50% + 20px); /* Adjust this value to move the buttons closer to or farther from the wallet balance cards */
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.25);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.swiper-button-next {
+  right: 0;
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+
+.swiper-button-next::after,
+.swiper-button-opprev::after {
+  font-size: 14px;
+  color: #fff;
+}
+
+
+/* Add this to your CSS */
+.swiper-pagination {
+  position: relative;
+  top: -35px; /* Adjust this value to position the indicators above the wallet balance area */
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.swiper-pagination-bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #bbb;
+  border-radius: 50%;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: background-color 0.6s ease;
+}
+.swiper-pagination-bullet-active {
+  background-color: #717171;
+}
+
+#success-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-100%);
+  background-color: #a7bc8f;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f2f2f2;
+  color: #555;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  z-index: 9999; /* Make sure the footer appears on top of other content */
+  height: 55px; /* adjust this value as needed */
+}
+
+
+
+.footer ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer li {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 15px; /* increase the spacing between the icons */
+}
+
+.footer a {
+  color: #555;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.footer a:hover {
+  color: #333;
+}
+
+.icon-label {
+  display: block;
+  font-size: 8px;
+  margin-top: 1px;
+}
+
+
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="content">
+  
+    <div class="navbar">
+        <h1></h1>
+        <ul>
+            <li><a href="#"><span class="material-symbols-outlined">
+person
+</span></a></li>
+
+            <li><a href="#"><span class="material-symbols-outlined">
+logout
+</span></a></li>
+        </ul>
+    </div>
+   
+
+
+
+            <div class="balances-swiper"> 
+               
+
+
+  <div class="swiper-container balances">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide balance">
+        <h4>BTC</h4>
+        <p>0.1234</p>
+  <div class="button-group">
+<button id="btc-deposit" class="deposit-button"><span class="material-symbols-outlined">payments</span>Deposit</button>
+    <button class="withdraw-button" >Withdraw</button>
+    <button class="swap-button"><span class="material-symbols-outlined">
+swap_horiz
+</span>
+Swap</button>
+  </div>
+      </div>
+      <div class="swiper-slide balance">
+        <h4>USDT</h4>
+        <p>1,234.56</p>
+  <div class="button-group">
+
+<button id="usdt-deposit" class="deposit-button">Deposit</button>
+    <button class="withdraw-button">Withdraw</button>
+    <button class="swap-button"><span class="material-symbols-outlined">
+swap_horiz
+</span>
+Swap</button>
+  </div>
+      </div>
+      <div class="swiper-slide balance">
+        <h4>NGN</h4>
+        <p>450,000.00</p>
+  <div class="button-group">
+<button id="ngn-deposit" class="deposit-button">Deposit</button>
+    <button class="withdraw-button">Withdraw</button>
+    <button class="swap-button"><span class="material-symbols-outlined">
+swap_horiz
+</span>
+Swap</button>
+  </div>
+      </div>
+    </div>
+</div>
+    <div class="swiper-pagination">
+
+</div>
+
+
+        <div class="recent-transactions">
+                <h2>Recent Transactions</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>May 20, 2023</td>
+                            <td>Deposit</td>
+                            <td>$1,000.00</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>May 19, 2023</td>
+                            <td>Withdrawal</td>
+                            <td>$500.00</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>May 18, 2023</td>
+                            <td>Transfer</td>
+                            <td>$250.00</td>
+                            <td>Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+        </div>
+<footer class="footer">
+  <ul>
+    <li><a href="#"><i class="material-symbols-outlined">house</i><span class="icon-label">Home</span></a></li>
+   <li><a href="#"><span class="material-symbols-outlined">account_balance_wallet</span><span class="icon-label">Wallet </span></a></li>
+    <li><a href="#"><span class="material-symbols-outlined">currency_exchange</span><span class="icon-label">Exchange</span></a></li>
+    <li><a href="#"><span class="material-symbols-outlined">receipt_long</span><span class="icon-label">Transactions</span></a></li>
+    <li><a href="#"><span class="material-symbols-outlined">settings</span><span class="icon-label">Settings</span></a></li>
+  </ul>
+</footer>
+</div>
+
+<div id="deposit-popup" class="popup">
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <h2>Deposit Address</h2>
+    <p>Wallet Address: <span id="wallet-address"></span></p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  var swiper = new Swiper(".balances", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    pagination: {
+      el: ".swiper-pagination",
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 1,
+        spaceBetween: 0,
+      },
+    },
+  });
+});
+
+
+const feedbackForm = document.querySelector('#feedback-form');
+const successMessage = document.querySelector('#success-message');
+
+feedbackForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  // Send AJAX request to submit form data
+  const formData = new FormData(feedbackForm);
+  fetch('submit-feedback.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      // Showsuccess message
+      successMessage.style.display = 'block';
+
+      // Hide success message after a few seconds
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+      }, 3000); // Change this value to adjust the delay before hiding the message
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  })
+  .catch(error => {
+    console.error('Error submitting feedback:', error);
+  });
+});
+
+document.querySelectorAll('.balance').forEach((balance) => {
+  const depositButton = balance.querySelector('.deposit-button');
+  const withdrawButton = balance.querySelector('.withdraw-button');
+  const swapButton = balance.querySelector('.swap-button');
+  
+  depositButton.addEventListener('click', () => {
+    // Handle deposit button click
+    console.log(`Deposit ${balance.querySelector('h4').textContent}`);
+  });
+  
+  withdrawButton.addEventListener('click', () => {
+    // Handle withdraw button click
+    console.log(`Withdraw ${balance.querySelector('h4').textContent}`);
+  });
+  
+  swapButton.addEventListener('click', () => {
+    // Handle swap button click
+    console.log(`Swap ${balance.querySelector('h4').textContent}`);
+  });
+});
+
+const btcDepositBtn = document.getElementById('btc-deposit');
+const usdtDepositBtn = document.getElementById('usdt-deposit');
+const ngnDepositBtn = document.getElementById('ngn-deposit');
+const popup = document.getElementById('deposit-popup');
+const closeBtn = popup.querySelector('.close');
+const walletAddress = document.getElementById('wallet-address');
+
+btcDepositBtn.addEventListener('click', () => {
+  walletAddress.textContent = 'BTC Wallet Address';
+  popup.style.display = 'block';
+});
+
+usdtDepositBtn.addEventListener('click', () => {
+  walletAddress.textContent = 'USDT Wallet Address';
+  popup.style.display = 'block';
+});
+
+ngnDepositBtn.addEventListener('click', () => {
+  walletAddress.textContent = 'NGN Wallet Address';
+  popup.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+  popup.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target == popup) {
+    popup.style.display = 'none';
+  }
+});
+  </script>
+</body>
+</html>
